@@ -1,0 +1,19 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: employee-svc
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        use_sql_comments: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mainak
+    username: postgres
+    password: Monu@1993
+    driver-class-name: org.postgresql.Driver
