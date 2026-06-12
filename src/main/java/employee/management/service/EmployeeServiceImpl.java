@@ -46,8 +46,8 @@ public class EmployeeServiceImpl implements EmployeeService{
         logger.info(METHOD_NAME, "searchEmployee");
         Employee student = employeeRepository.findEmployeeById(id);
         if(student.toString().isEmpty()){
-            logger.info("StudentId = {} not found", id);
-            throw new ResourceNotFoundException("StudentId = " + id + " not found");
+            logger.info("EmployeeId = {} not found", id);
+            throw new ResourceNotFoundException("EmployeeId = " + id + " not found");
         }
         return student;
     }
