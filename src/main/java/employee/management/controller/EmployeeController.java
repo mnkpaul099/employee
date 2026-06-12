@@ -2,7 +2,7 @@ package employee.management.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import employee.management.dto.EmployeeDto;
-import employee.management.exception.ResourceNotFoundException;
+import employee.management.exception.EmployeeNotFoundException;
 import employee.management.model.Employee;
 import employee.management.service.EmployeeService;
 import org.slf4j.Logger;
@@ -45,9 +45,27 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> searchEmployee(@PathVariable int id) throws ResourceNotFoundException {
-        logger.info(METHOD_NAME, "searchEmployee");
-        logger.info("EmployeeId = {}", id);
-        return ResponseEntity.ok(employeeService.searchEmployee(id));
+    public ResponseEntity<Object> searchEmployee(@PathVariable int id) throws EmployeeNotFoundException {
+        try {
+            logger.info(METHOD_NAME, "searchEmployee");
+            logger.info("EmployeeId = {}", id);
+            return ResponseEntity.ok(employeeService.searchEmployee(id));
+        } catch (Exception e){
+            logger.info("EmployeeId = {} not found", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("EmployeeId = " + id + " not found");
+        }
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteEmployee(@RequestParam int id) throws EmployeeNotFoundException {
+        try {
+            logger.info(METHOD_NAME, "deleteEmployee");
+            logger.info("EmployeeId = {}", id);
+            employeeService.deleteEmployee(id);
+            return ResponseEntity.ok("EmployeeId = " + id + " deleted successfully");
+        } catch (Exception e){
+            logger.info("EmployeeId = {} not found", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("EmployeeId = " + id + " not found");
+        }
     }
 }

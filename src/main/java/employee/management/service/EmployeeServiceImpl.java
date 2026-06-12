@@ -1,7 +1,7 @@
 package employee.management.service;
 
 import employee.management.dto.EmployeeDto;
-import employee.management.exception.ResourceNotFoundException;
+import employee.management.exception.EmployeeNotFoundException;
 import employee.management.model.Employee;
 import employee.management.repository.EmployeeRepository;
 import org.slf4j.Logger;
@@ -44,11 +44,22 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public Employee searchEmployee(int id) {
         logger.info(METHOD_NAME, "searchEmployee");
-        Employee student = employeeRepository.findEmployeeById(id);
-        if(student.toString().isEmpty()){
+        Employee employee = employeeRepository.findEmployeeById(id);
+        if(employee.toString().isEmpty()){
             logger.info("EmployeeId = {} not found", id);
-            throw new ResourceNotFoundException("EmployeeId = " + id + " not found");
+            throw new EmployeeNotFoundException("EmployeeId = " + id + " not found");
         }
-        return student;
+        return employee;
+    }
+
+    @Override
+    public void deleteEmployee(int id) {
+        logger.info(METHOD_NAME, "deleteEmployee");
+        Employee employee = employeeRepository.findEmployeeById(id);
+        if(employee.toString().isEmpty()){
+            logger.info("EmployeeId = {} not found", id);
+            throw new EmployeeNotFoundException("EmployeeId = " + id + " not found");
+        }
+        employeeRepository.delete(employee);
     }
 }
